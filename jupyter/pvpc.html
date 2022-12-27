@@ -1,0 +1,298 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="pvppc.css" media="print" rel="stylesheet">
+    <title>Invoice</title>
+    <meta name="description" content="Simulación factura PVPC">
+    <style>
+    
+    </style>
+  </head>
+
+  <body>
+    <h1>Simulador factura PVPC</h1>
+
+    <aside>
+      <address id="from">
+
+      </address>
+
+      <address id="to">
+
+      </address>
+    </aside>
+    <dl id="suministro">
+      <dt>Suministro:</dt>
+      <dt>CUPS: ES34XXXXXXXXXXXXXXXXX</dt>
+      <dt>TITULAR: FULANO DE TAL</dt>
+      <dt>DIRECCION: PASEILLO DE LA PALANQUETA, 3 ROZAS DEL BIERZO MURZIA</dt>      
+    </dl>
+    <dl id="potencias">
+      <dt>Potencias:</dt>
+      <dt>P1: 5.5</dt>
+      <dt>P2: 5.5</dt>      
+    </dl>    
+    <dl id="fechas">
+      <dt>Fechas:</dt>
+      <dt>Desde el: 2022-06-01</dt>
+      <dt>Hasta el: 2022-07-31</dt>
+    </dl>
+    <h1>IMPORTE: 200.83 €</h1>
+    <hr>
+    <table>
+      <tbody>
+      
+        <tr>
+          <td class="level0" >Termino Fijos</td>
+          
+            
+              <tr class="Subtotal">
+                <td></td><td class="level1" >Subtotal </td>
+                
+                <td class="level1" >532 kWh x 0.05178 €/kWh (ponderado)= 27.52 €</td>
+                      
+              </tr>
+            
+              <tr class="Peajes">
+                <td></td><td class="level1" >Peajes </td>
+                
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">P1</td>
+                   
+                  <td class="level2" >60 dias x 0.06298 €/kW dia=3.78 €</td>
+                                     
+                </tr>
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">P2</td>
+                   
+                  <td class="level2" >60 dias x 0.00257 €/kW dia=0.15 €</td>
+                                     
+                </tr>
+                               
+                      
+              </tr>
+            
+              <tr class="Cargos">
+                <td></td><td class="level1" >Cargos </td>
+                
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">P1</td>
+                   
+                  <td class="level2" >60 dias x 0.00870 €/kW dia=0.52 €</td>
+                                     
+                </tr>
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">P2</td>
+                   
+                  <td class="level2" >60 dias x 0.00056 €/kW dia=0.03 €</td>
+                                     
+                </tr>
+                               
+                      
+              </tr>
+            
+              <tr class="Margen de comercialización">
+                <td></td><td class="level1" >Margen de comercialización </td>
+                
+                <td class="level1" >0</td>
+                      
+              </tr>
+                         
+          
+        </tr>
+      
+        <tr>
+          <td class="level0" >Termino Variables</td>
+          
+            
+              <tr class="Subtotal">
+                <td></td><td class="level1" >Subtotal </td>
+                
+                <td class="level1" >532 kWh x 0.30326 €/kWh (ponderado)= 161.20 €</td>
+                      
+              </tr>
+            
+              <tr class="Peajes">
+                <td></td><td class="level1" >Peajes </td>
+                
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">Subtotal</td>
+                   
+                  <td class="level2" >532 kWh x 0.01247 €/kWh (ponderado)= 6.63 €</td>
+                                     
+                </tr>
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">P1</td>
+                   
+                  <td class="level2" >129 kWh x 0.027787 €/kWh = 3.58 €</td>
+                                     
+                </tr>
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">P2</td>
+                   
+                  <td class="level2" >150 kWh x 0.019146 €/kWh = 2.87 €</td>
+                                     
+                </tr>
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">P3</td>
+                   
+                  <td class="level2" >253 kWh x 0.000703 €/kWh = 0.18 €</td>
+                                     
+                </tr>
+                               
+                      
+              </tr>
+            
+              <tr class="Cargos">
+                <td></td><td class="level1" >Cargos </td>
+                
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">Subtotal</td>
+                   
+                  <td class="level2" >532 kWh x 0.01505 €/kWh (ponderado) = 8.00 €</td>
+                                     
+                </tr>
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">P1</td>
+                   
+                  <td class="level2" >129 kWh x 0.046622 €/kWh = 6.01 €</td>
+                                     
+                </tr>
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">P2</td>
+                   
+                  <td class="level2" >150 kWh x 0.009324 €/kWh = 1.40 €</td>
+                                     
+                </tr>
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">P3</td>
+                   
+                  <td class="level2" >253 kWh x 0.002331 €/kWh = 0.59 €</td>
+                                     
+                </tr>
+                               
+                      
+              </tr>
+            
+              <tr class="Energia">
+                <td></td><td class="level1" >Energia </td>
+                
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">Subtotal</td>
+                   
+                  <td class="level2" >532 kWh x 0.27574 €/kWh (ponderado)= 146.57 €</td>
+                                     
+                </tr>
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">Coste mercados</td>
+                                    
+                    
+                    <tr>
+                      <td></td><td></td><td></td><td class="level3">Subtotal</td><td class="level3"> 532 kWh x 0.14700 €/kWh (ponderado)= 78.14 €</td>
+                    </tr>               
+                    
+                    <tr>
+                      <td></td><td></td><td></td><td class="level3">P1</td><td class="level3"> 129 kWh x 0.15171 €/kWh (ponderado)= 19.57 €</td>
+                    </tr>               
+                    
+                    <tr>
+                      <td></td><td></td><td></td><td class="level3">P2</td><td class="level3"> 150 kWh x 0.13073 €/kWh (ponderado)= 22.27 €</td>
+                    </tr>               
+                    
+                    <tr>
+                      <td></td><td></td><td></td><td class="level3">P3</td><td class="level3"> 253 kWh x 0.07740 €/kWh (ponderado)= 36.29 €</td>
+                    </tr>               
+                                 
+                                     
+                </tr>
+                                 
+                <tr>
+                  <td></td><td></td><td class="level2">Compensación tope Gas</td>
+                                    
+                    
+                    <tr>
+                      <td></td><td></td><td></td><td class="level3">Subtotal</td><td class="level3"> 532 kWh x 0.09626 €/kWh (ponderado)= 51.17 €</td>
+                    </tr>               
+                    
+                    <tr>
+                      <td></td><td></td><td></td><td class="level3">P1</td><td class="level3"> 129 kWh x 0.08235 €/kWh (ponderado)= 10.62 €</td>
+                    </tr>               
+                    
+                    <tr>
+                      <td></td><td></td><td></td><td class="level3">P2</td><td class="level3"> 150 kWh x 0.07096 €/kWh (ponderado)= 12.74 €</td>
+                    </tr>               
+                    
+                    <tr>
+                      <td></td><td></td><td></td><td class="level3">P3</td><td class="level3"> 253 kWh x 0.04201 €/kWh (ponderado)= 27.81 €</td>
+                    </tr>               
+                                 
+                                     
+                </tr>
+                               
+                      
+              </tr>
+                         
+          
+        </tr>
+      
+        <tr>
+          <td class="level0" >Impuesto Electrico</td>
+          
+          <td class="level0" >0.5% x 188.72 € = 0.94 €</td>
+          
+        </tr>
+      
+        <tr>
+          <td class="level0" >Otros</td>
+          
+            
+              <tr class="Alquiler Contador">
+                <td></td><td class="level1" >Alquiler Contador </td>
+                
+                <td class="level1" >60 dias x 0.02663 €/dia = 1.60 €</td>
+                      
+              </tr>
+                         
+          
+        </tr>
+      
+        <tr>
+          <td class="level0" >Base imponible</td>
+          
+          <td class="level0" >191.27</td>
+          
+        </tr>
+      
+        <tr>
+          <td class="level0" >I.V.A.</td>
+          
+          <td class="level0" >9.56</td>
+          
+        </tr>
+      
+        <tr>
+          <td class="level0" >TOTAL IMPORTE FACTURA</td>
+          
+          <td class="level0" >200.83</td>
+          
+        </tr>
+      
+      </tbody>
+    </table>
+
+  </body>
+</html>

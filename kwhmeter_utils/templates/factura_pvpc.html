@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="pvppc.css" media="print" rel="stylesheet">
+    <title>Invoice</title>
+    <meta name="description" content="Simulación factura PVPC">
+    <style>
+    
+    </style>
+  </head>
+
+  <body>
+    <h1>Simulador factura PVPC</h1>
+
+    <aside>
+      <address id="from">
+
+      </address>
+
+      <address id="to">
+
+      </address>
+    </aside>
+    <dl id="suministro">
+      <dt>Suministro:</dt>
+      <dt>CUPS: {{suministro.CUPS}}</dt>
+      <dt>TITULAR: {{suministro.TITULAR}}</dt>
+      <dt>DIRECCION: {{suministro.DIRECCION}}</dt>      
+    </dl>
+    <dl id="potencias">
+      <dt>Potencias:</dt>
+      <dt>P1: {{potencias.P1}}</dt>
+      <dt>P2: {{potencias.P2}}</dt>      
+    </dl>    
+    <dl id="fechas">
+      <dt>Fechas:</dt>
+      <dt>Desde el: {{factura.desde}}</dt>
+      <dt>Hasta el: {{factura.hasta}}</dt>
+    </dl>
+    <h1>IMPORTE: {{contenido["TOTAL IMPORTE FACTURA"] }} €</h1>
+    <hr>
+    <table>
+      <tbody>
+      {% for k,item in contenido.items() %}
+        <tr>
+          <td class="level0" >{{k}}</td>
+          {% if item is mapping  %}
+          {% for kk,subitem in item.items()  %}  
+              <tr class="{{kk}}">
+                <td></td><td class="level1" >{{kk}} </td>
+                {% if subitem is mapping  %}
+                {% for kkk,subsubitem in subitem.items()  %}                 
+                <tr>
+                  <td></td><td></td><td class="level2">{{kkk}}</td>
+                  {% if subsubitem is mapping  %}                  
+                  {% for kkkk,subsubsubitem in subsubitem.items()  %}  
+                    <tr>
+                      <td></td><td></td><td></td><td class="level3">{{kkkk}}</td><td class="level3"> {{subsubsubitem}}</td>
+                    </tr>               
+                  {% endfor %}               
+                  {% else %} 
+                  <td class="level2" >{{subsubitem}}</td>
+                  {% endif %}                   
+                </tr>
+                {% endfor %}               
+                {% else %}
+                <td class="level1" >{{subitem}}</td>
+                {% endif %}      
+              </tr>
+          {% endfor %}               
+          {% else %}
+          <td class="level0" >{{item}}</td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+  </body>
+</html>

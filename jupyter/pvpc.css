@@ -1,0 +1,25 @@
+body{
+    width: 100%;
+    margin: auto;
+    font-family: "Helvetica Neue";
+    background-color: "blue";
+  }
+  .level0 {
+    font-size: 20px;
+    background-color : greenyellow;
+  }
+  .level1 {
+    font-size: 16px;
+  }      
+  .level2 {
+    font-size: 12px;
+  }      
+  .level3 {
+    font-size: 8px;
+  } 
+  .Subtotal {
+    font-size: 22px;
+  }     
+  table, th, td {
+    border: 0px solid;
+  }       
