@@ -11,5 +11,9 @@ if os.path.exists(kwhmeter_util_config):
     with open(kwhmeter_util_config) as f:
         config = yaml.load(f, Loader=SafeLoader)
 else:
-    logging.error(f"{kwhmeter_util_config} do not exists")
-    exit(1)
+    import pkg_resources
+    logging.warning(f"{kwhmeter_util_config} do not exists. Using default one")
+    with pkg_resources.resource_stream(__name__, 'data/kwhmeter_util_config.yml') as f:
+        config = yaml.load(f, Loader=SafeLoader)
+    with open(kwhmeter_util_config,'w') as f:                    
+        f.write(yaml.dump(config))

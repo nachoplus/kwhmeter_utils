@@ -56,20 +56,23 @@ class suministro:
         cc_por_periodo=datos.groupby('periodo').sum()
         precios_e=pd.DataFrame(config['precios']['energia'])
         precios_p=pd.DataFrame(config['precios']['potencia'])
-
+        margen_comercializacion=float(config['precios']['margen_comercializacion'])
         ndias=int(datos.shape[0]/24)
+        potencias_contratadas=self.connection.potencias
+        kWP1=potencias_contratadas['P1']
+        kWP2=potencias_contratadas['P2']
         result={
         'Termino Fijos':{
             'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['TERMINO_FIJO'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['TERMINO_FIJO'].sum():.2f} €",        
             'Peajes':{
-                'P1': f"{ndias} dias x {precios_p.loc['P1','peajes']:.5f} €/kW dia={ndias*precios_p.loc['P1','peajes']:.2f} €",
-                'P2': f"{ndias} dias x {precios_p.loc['P2','peajes']:.5f} €/kW dia={ndias*precios_p.loc['P2','peajes']:.2f} €",
+                'P1': f"{ndias} dias x {precios_p.loc['P1','peajes']:.5f} €/kW dia x {kWP1} kWP1 ={ndias*precios_p.loc['P1','peajes']*kWP1:.2f} €",
+                'P2': f"{ndias} dias x {precios_p.loc['P2','peajes']:.5f} €/kW dia x {kWP2} kWP2 ={ndias*precios_p.loc['P2','peajes']*kWP2:.2f} €",
             },
             'Cargos':{
-                'P1': f"{ndias} dias x {precios_p.loc['P1','cargos']:.5f} €/kW dia={ndias*precios_p.loc['P1','cargos']:.2f} €",
-                'P2': f"{ndias} dias x {precios_p.loc['P2','cargos']:.5f} €/kW dia={ndias*precios_p.loc['P2','cargos']:.2f} €",
+                'P1': f"{ndias} dias x {precios_p.loc['P1','cargos']:.5f} €/kW dia x {kWP1} kWP1 ={ndias*precios_p.loc['P1','cargos']*kWP1:.2f} €",
+                'P2': f"{ndias} dias x {precios_p.loc['P2','cargos']:.5f} €/kW dia x {kWP2} kWP2 ={ndias*precios_p.loc['P2','cargos']*kWP2:.2f} €",
             },
-            'Margen de comercialización':0
+            f'Margen de comercialización {ndias} dias x {margen_comercializacion:.5f} €/kW dia x {kWP1} kWP1':ndias*margen_comercializacion*kWP1
         },
         'Termino Variables':{
             'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['TERMINO_VARIABLE'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['TERMINO_VARIABLE'].sum():.2f} €",    
