@@ -4,22 +4,33 @@ body{
     font-family: "Helvetica Neue";
     background-color: "blue";
   }
+  .cabecera_direccion {
+    font-size: 18px;
+    background-color : #6760c4;
+  }  
+  .cabecera_potencias {
+    font-size: 18px;
+    background-color : hwb(278 38% 23%);
+  }   
   .level0 {
     font-size: 20px;
     background-color : greenyellow;
   }
   .level1 {
-    font-size: 16px;
+    font-size: 18px;
+    background-color : rgb(223, 179, 37);
   }      
   .level2 {
-    font-size: 12px;
+    font-size: 16px;
+    background-color : rgb(237, 108, 241);    
   }      
   .level3 {
-    font-size: 8px;
+    font-size: 14px;
+    background-color : rgb(245, 162, 129);    
   } 
   .Subtotal {
     font-size: 22px;
   }     
   table, th, td {
-    border: 0px solid;
+    border: 1px solid;
   }       

@@ -117,9 +117,9 @@ class suministro:
         else:
             suministro={'CUPS':self.connection.cups,'TITULAR':self.connection.titular,'DIRECCION':self.connection.direccion}
         result={'suministro':suministro,
-                'potencias':self.connection.potencias,
-                'factura':{'desde':datos.index.min().date(),'hasta':datos.index.max().date()},
-                'contenido':result} 
+                'potencias_contratadas':self.connection.potencias,
+                'periodo':{'desde':datos.index.min().date(),'hasta':datos.index.max().date()},
+                'factura':result} 
         return result     
 
     def factura_pvpc(self,consumos):
