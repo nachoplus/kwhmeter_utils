@@ -2,8 +2,8 @@ import click
 import json
 import datetime
 from pathlib import Path
-import logging
 import kwhmeter_utils as ku
+from kwhmeter.common import flex_consumos
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 
 class DateTimeEncoder(json.JSONEncoder):
@@ -26,9 +26,12 @@ class bcolors:
 def print_nivel(res,level=0):
     #print(level,res)
     if isinstance(res,dict):
+        if not 'Subtotal' in res:
+            first=True
+        else:
+            first=False
+        tabs=['\t' for i in range(level)]            
         for k,v in res.items():
-            tabs=['  ' for i in range(level)]
-            end=' '
             if level==0:
                 color=bcolors.HEADER
                 end='\n'
@@ -40,11 +43,15 @@ def print_nivel(res,level=0):
                 color=bcolors.OKCYAN
             else:
                 color=bcolors.WARNING
-            print(f'{color}{"".join(tabs)}{k}:{bcolors.ENDC}',end=end)                        
+            if k!="Subtotal":
+                if first:
+                    first=False
+                    print()
+                print(f'{color}{"".join(tabs)}{k}:{bcolors.ENDC}',end=' ')                        
             print_nivel(v,level+1)            
     else:
         tabs=['  ' for i in range(level)]
-        print(f'{"".join(tabs)}{res}')              
+        print(f'{res}')              
             
     return
 
@@ -52,45 +59,26 @@ def print_nivel(res,level=0):
 @click.command()
 @click.argument('suministro',type=str)
 @click.option('--lista-facturas',is_flag=True, show_default=True, default=False, help="Muestra los periodos de facturación disponibles")
-@click.option('--n','n',help="Consumos para las facturas especificadas.",show_default=True,default=1)
+@click.option('--n','n',multiple=True,type=click.INT,help="Consumos para las facturas especificadas por indice. Se puede usar tantas veces como facturas se quieran recuperar",show_default=True,default=False)
 @click.option('--factura','factura',multiple=True,help="Consumos para las facturas especificadas. Se puede usar tantas veces como facturas se quieran recuperar",show_default=True,default=False)
 @click.option('--fecha-ini', 'fecha_ini',type=click.DateTime(formats=["%Y-%m-%d"]),
-              default=str(datetime.date.today()-datetime.timedelta(days=30)),help="Fecha inicio consumos por fecha",show_default=True)
+              help="Fecha inicio consumos por fecha",show_default=True)
 @click.option('--fecha-fin', 'fecha_fin',type=click.DateTime(formats=["%Y-%m-%d"]),
-              default=str(datetime.date.today()),help="Fecha fin consumos por fecha",show_default=True)
+              help="Fecha fin consumos por fecha",show_default=True)
 @click.option('--format',help="Formato de salida",
               type=click.Choice(['screen','json', 'pdf','html'], case_sensitive=False),default='screen',show_default=True)
 def pvpc(suministro,lista_facturas,n,factura,fecha_ini,fecha_fin,format):
-    suministro=ku.suministro(suministro)   
-    if lista_facturas:
-        print("Peridos de facturacion disponibles:")
-        df=suministro.periodos_facturacion()
-        print(df)
+    datos,consumo=flex_consumos(suministro,n,factura,fecha_ini,fecha_fin)
+    if not datos:
         return
-    elif n:
-        f=suministro.periodos_facturacion()
-        factura=f.index[n-1]
-        print(f'FACTURA:{factura}')
-        df=suministro.consumo_facturado([factura])
-    elif factura:
-        factura=list(factura)
-        print(f"Consumos de la facturas:{factura}")
-        df=suministro.consumo_facturado(factura)
-    elif fecha_fin and fecha_ini:
-        fecha_ini=ku.timezone.localize(fecha_ini)
-        fecha_fin=ku.timezone.localize(fecha_fin)
-        print(f"Consumos entre las fechas {fecha_ini} y {fecha_fin}")
-        df=suministro.consumo(fecha_ini,fecha_fin)
-    else:
-        print("No se han especificado parametros")
-        return
-    cc=suministro.factura_pvpc(df)
-    result=suministro.formater(cc)
+    cc=ku.calculos_pvpc(datos,consumo)
+    result=ku.formater(datos,cc)
     if format=='screen':
         print_nivel(result)
     if format=='json':
         print(json.dumps(result, default=str))
     elif format=='html':
+        print("TODO: No implementado. ")
         pass
 
     
