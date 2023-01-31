@@ -60,6 +60,7 @@ def print_nivel(res,level=0):
 @click.argument('suministro',type=str)
 @click.option('--lista-facturas',is_flag=True, show_default=True, default=False, help="Muestra los periodos de facturación disponibles")
 @click.option('--n','n',multiple=True,type=click.INT,help="Consumos para las facturas especificadas por indice. Se puede usar tantas veces como facturas se quieran recuperar",show_default=True,default=False)
+@click.option('--m',multiple=False,type=click.INT,help="Consumos para las ultimas m facturas",show_default=True,default=False)
 @click.option('--factura','factura',multiple=True,help="Consumos para las facturas especificadas. Se puede usar tantas veces como facturas se quieran recuperar",show_default=True,default=False)
 @click.option('--fecha-ini', 'fecha_ini',type=click.DateTime(formats=["%Y-%m-%d"]),
               help="Fecha inicio consumos por fecha",show_default=True)
@@ -67,8 +68,8 @@ def print_nivel(res,level=0):
               help="Fecha fin consumos por fecha",show_default=True)
 @click.option('--format',help="Formato de salida",
               type=click.Choice(['screen','json', 'pdf','html'], case_sensitive=False),default='screen',show_default=True)
-def pvpc(suministro,lista_facturas,n,factura,fecha_ini,fecha_fin,format):
-    datos,consumo=flex_consumos(suministro,n,factura,fecha_ini,fecha_fin)
+def pvpc(suministro,lista_facturas,n,m,factura,fecha_ini,fecha_fin,format):
+    datos,consumo=flex_consumos(suministro,n,m,factura,fecha_ini,fecha_fin)
     if not datos:
         return
     cc=ku.calculos_pvpc(datos,consumo)
