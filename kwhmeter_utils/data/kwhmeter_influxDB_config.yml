@@ -1,0 +1,6 @@
+influxDB:
+  host: x.x.x.x
+  port: 8086
+  user: usuario
+  password: contraseña
+  db: kallpa
