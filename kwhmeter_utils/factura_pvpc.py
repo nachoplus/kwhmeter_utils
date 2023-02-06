@@ -1,6 +1,6 @@
 import pandas as pd
 from kwhmeter import append_prices
-from .common import config
+from .common import config_pvpc
 
 
 def LuT(LuTable,fecha,periodo=None):
@@ -15,7 +15,7 @@ def LuT(LuTable,fecha,periodo=None):
 
 def calculos_pvpc(datos,consumos):
     consumos_con_precios=append_prices(consumos)
-    coeff=pd.DataFrame.from_dict(config,orient='index')
+    coeff=pd.DataFrame.from_dict(config_pvpc,orient='index')
     coeff_ene=coeff.energia.apply(pd.DataFrame.from_dict,orient='index').to_dict()
     precios=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_ene,row['fecha'],row['periodo']),axis=1)
     precios.index=consumos_con_precios.index
