@@ -84,7 +84,7 @@ def formater(datos,consumos,anonimo=True):
         f"Margen de comercialización {ndias} dias x {cc_por_periodo['COMERCIALIZADORA_P'].sum()/(ndias*kWP1):.6f} €/kW dia x {kWP1} kWP1":f"{cc_por_periodo['COMERCIALIZADORA_P'].sum():.2f} €"
     },
     'Termino Variables':{
-        'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['TERMINO_VARIABLE'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['TERMINO_VARIABLE'].sum():.2f} €",    
+        'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.3f} kWh x {cc_por_periodo['TERMINO_VARIABLE'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['TERMINO_VARIABLE'].sum():.2f} €",    
         'Peajes':{
             'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['PEAJES_E'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['PEAJES_E'].sum():.2f} €",    
             'P1':f"{cc_por_periodo.loc['P1','consumo']/1000:.0f} kWh x {cc_por_periodo.loc['P1','PEAJES_E'].sum()*1000/cc_por_periodo.loc['P1','consumo'].sum():.6f} €/kWh = {cc_por_periodo.loc['P1','PEAJES_E']:.2f} €",
@@ -127,7 +127,7 @@ def formater(datos,consumos,anonimo=True):
         suministro={'CUPS':datos['cups'],'TITULAR':datos['titular'],'DIRECCION':datos['direccion']}
     result={'suministro':suministro,
             'potencias_contratadas':datos['potencias'],
-            'periodo':{'desde':consumos.index.min().date(),'hasta':consumos.index.max().date()},
+            'periodo':{'desde':consumos.index.min(),'hasta':consumos.index.max()},
             'factura':result} 
     return result     
 
