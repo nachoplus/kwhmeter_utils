@@ -17,7 +17,7 @@ setup(
     include_package_data=True,
     package_data={'': ['data/*.yml']},    
     install_requires=[
-        'kwhmeter',
+        'git+https://github.com/nachoplus/kwhmeter.git#egg=kwhmeter',
         'pandas'
     ],
     extras_require={
