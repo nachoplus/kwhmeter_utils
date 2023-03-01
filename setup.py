@@ -18,7 +18,8 @@ setup(
     package_data={'': ['data/*.yml']},    
     install_requires=[
         'kwhmeter@git+https://github.com/nachoplus/kwhmeter.git',
-        'pandas'
+        'pandas',
+        'influxdb'
     ],
     extras_require={
 
