@@ -12,17 +12,19 @@ setup(
     description="Simulador de facturas PVPC",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/nachoplus/kalpa_factura.git",
+    url="https://github.com/nachoplus/kwhmeter_utils",
     packages=find_packages(),
-    include_package_data=True,
     package_data={'': ['data/*.yml']},    
     install_requires=[
-        'kwhmeter@git+https://github.com/nachoplus/kwhmeter.git',
+        'kwhmeter',
         'pandas',
         'influxdb'
     ],
     extras_require={
 
+    },
+    setuptools_git_versioning={
+        "enabled": True,
     },
     classifiers=[
         "Programming Language :: Python :: 3",
