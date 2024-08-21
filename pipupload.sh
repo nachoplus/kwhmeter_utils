@@ -1,6 +1,6 @@
-tagname='0.1.1'
+tagname='0.1.2'
 git tag --delete ${tagname}
-git tag ${tagname}   -m "correcion para precios nulos del la compensacion del gas"
+git tag ${tagname}   -m "actualizacion de las tablas de coeficientes"
 git push origin :refs/tags/${tagname}
 git push --tags origin main
 rm dist/*

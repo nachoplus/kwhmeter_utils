@@ -1,82 +1,172 @@
 2022-01-01:
   BOE:
-    peajes: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-21208
     cargos: https://www.boe.es/buscar/pdf/2022/BOE-A-2022-4972-consolidado.pdf
     comercializacion: https://www.boe.es/buscar/doc.php?id=BOE-A-2016-12274
     contador: https://www.boe.es/buscar/pdf/2013/BOE-A-2013-8561-consolidado.pdf
-  potencia:
-    peajes:
-      P1: 22.988256
-      P2: 0.938890
-    cargos:
-      P1: 3.175787
-      P2: 0.204242
+    peajes: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-21208
+  contador: 0.81
   energia:
+    cargos:
+      P1: 0.046622
+      P2: 0.009324
+      P3: 0.002331
     peajes:
       P1: 0.027787
       P2: 0.019146
       P3: 0.000703
-    cargos: 
-      P1: 0.046622
-      P2: 0.009324
-      P3: 0.002331
-  contador: 0.81
   impuesto_electrico: 0.5
-  iva: 5.
-  margen_comercializacion: 3.113  
-
+  iva: 5.0
+  margen_comercializacion: 3.113
+  potencia:
+    cargos:
+      P1: 3.175787
+      P2: 0.204242
+    peajes:
+      P1: 22.988256
+      P2: 0.93889
 2022-03-31:
   BOE:
-    peajes: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-21208
     cargos: https://www.boe.es/buscar/pdf/2022/BOE-A-2022-4972-consolidado.pdf
-    comercializacion: https://www.boe.es/buscar/doc.php?id=BOE-A-2016-12274   
-    contador: https://www.boe.es/buscar/pdf/2013/BOE-A-2013-8561-consolidado.pdf     
-  potencia:
-    peajes:
-      P1: 22.988256
-      P2: 0.938890
-    cargos:
-      P1: 3.175787
-      P2: 0.204242
+    comercializacion: https://www.boe.es/buscar/doc.php?id=BOE-A-2016-12274
+    contador: https://www.boe.es/buscar/pdf/2013/BOE-A-2013-8561-consolidado.pdf
+    peajes: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-21208
+  contador: 0.81
   energia:
+    cargos:
+      P1: 0.046622
+      P2: 0.009324
+      P3: 0.002331
     peajes:
       P1: 0.027787
       P2: 0.019146
       P3: 0.000703
-    cargos: 
-      P1: 0.046622
-      P2: 0.009324
-      P3: 0.002331
-  contador: 0.81
   impuesto_electrico: 0.5
-  iva: 5.
+  iva: 5.0
   margen_comercializacion: 3.113
-
-2023-01-01:
-  BOE: 
-    peajes: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-21799
-    cargos: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-23737
-    comercializacion: https://www.boe.es/buscar/doc.php?id=BOE-A-2016-12274    
-    contador: https://www.boe.es/buscar/pdf/2013/BOE-A-2013-8561-consolidado.pdf 
-    impuesto_electrico: https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685   
-    iva_electrico: https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685    
   potencia:
-    peajes:
-      P1: 22.393140
-      P2: 1.150425
     cargos:
-      P1: 2.989915
-      P2: 0.192288
-  energia:
+      P1: 3.175787
+      P2: 0.204242
     peajes:
-      P1: 0.029098
-      P2: 0.019794
-      P3: 0.000980
-    cargos: 
+      P1: 22.988256
+      P2: 0.93889
+2023-01-01:
+  BOE:
+    cargos: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-23737
+    comercializacion: https://www.boe.es/buscar/doc.php?id=BOE-A-2016-12274
+    contador: https://www.boe.es/buscar/pdf/2013/BOE-A-2013-8561-consolidado.pdf
+    impuesto_electrico: https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685
+    iva_electrico: https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685
+    peajes: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-21799
+  contador: 0.81
+  energia:
+    cargos:
       P1: 0.043893
       P2: 0.008779
       P3: 0.002195
-  contador: 0.81
+    peajes:
+      P1: 0.029098
+      P2: 0.019794
+      P3: 0.00098
   impuesto_electrico: 0.5
-  iva: 5.
-  margen_comercializacion: 3.113        
+  iva: 5.0
+  margen_comercializacion: 3.113
+  potencia:
+    cargos:
+      P1: 2.989915
+      P2: 0.192288
+    peajes:
+      P1: 22.39314
+      P2: 1.150425
+2024-01-01:
+  Notas:
+  - Se publica nueva orden de peajes
+  - Se actualiza el impuesto electrico
+  BOE:
+    cargos: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-23737
+    comercializacion: https://www.boe.es/buscar/doc.php?id=BOE-A-2016-12274
+    contador: https://www.boe.es/buscar/pdf/2013/BOE-A-2013-8561-consolidado.pdf
+    impuesto_electrico: https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685
+    iva_electrico: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-26452
+    peajes: https://www.boe.es/buscar/doc.php?id=BOE-A-2023-26251
+  contador: 0.81
+  energia:
+    cargos:
+      P1: 0.043893
+      P2: 0.008779
+      P3: 0.002195
+    peajes:
+      P1: 0.033081
+      P2: 0.019184
+      P3: 0.000557
+  impuesto_electrico: 2.5
+  iva: 5.0
+  margen_comercializacion: 3.113
+  potencia:
+    cargos:
+      P1: 2.989915
+      P2: 0.192288
+    peajes:
+      P1: 22.401746
+      P2: 0.776564      
+2024-04-01:
+  Notas:
+  - Se actualiza el impuesto eléctrico
+  BOE:
+    cargos: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2024-2774
+    comercializacion: https://www.boe.es/buscar/doc.php?id=BOE-A-2016-12274
+    contador: https://www.boe.es/buscar/pdf/2013/BOE-A-2013-8561-consolidado.pdf
+    impuesto_electrico: https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685
+    iva_electrico: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-26452
+    peajes: https://www.boe.es/buscar/doc.php?id=BOE-A-2023-26251
+  contador: 0.81
+  energia:
+    cargos:
+      P1: 0.043893
+      P2: 0.008779
+      P3: 0.002195
+    peajes:
+      P1: 0.033081
+      P2: 0.019184
+      P3: 0.000557
+  impuesto_electrico: 3.8
+  iva: 5.0
+  margen_comercializacion: 3.113
+  potencia:
+    cargos:
+      P1: 2.989915
+      P2: 0.192288
+    peajes:
+      P1: 22.401746
+      P2: 0.776564
+2024-07-01:
+  Notas:
+  - Se actualiza el iva al 10%
+  - Se actualiza el impuesto eléctrico
+  BOE:
+    cargos: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2024-2774
+    comercializacion: https://www.boe.es/buscar/doc.php?id=BOE-A-2016-12274
+    contador: https://www.boe.es/buscar/pdf/2013/BOE-A-2013-8561-consolidado.pdf
+    impuesto_electrico: https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685
+    iva_electrico: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-26452
+    peajes: https://www.boe.es/buscar/doc.php?id=BOE-A-2023-26251
+  contador: 0.81
+  energia:
+    cargos:
+      P1: 0.043893
+      P2: 0.008779
+      P3: 0.002195
+    peajes:
+      P1: 0.033081
+      P2: 0.019184
+      P3: 0.000557
+  impuesto_electrico: 5.11269632
+  iva: 10.0
+  margen_comercializacion: 3.113
+  potencia:
+    cargos:
+      P1: 2.989915
+      P2: 0.192288
+    peajes:
+      P1: 22.401746
+      P2: 0.776564
