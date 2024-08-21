@@ -82,6 +82,7 @@
   Notas:
   - Se publica nueva orden de peajes
   - Se actualiza el impuesto electrico
+  - Se sube el IVA al 10%
   BOE:
     cargos: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-23737
     comercializacion: https://www.boe.es/buscar/doc.php?id=BOE-A-2016-12274
@@ -100,7 +101,7 @@
       P2: 0.019184
       P3: 0.000557
   impuesto_electrico: 2.5
-  iva: 5.0
+  iva: 10.0
   margen_comercializacion: 3.113
   potencia:
     cargos:
@@ -109,6 +110,38 @@
     peajes:
       P1: 22.401746
       P2: 0.776564      
+2024-03-01:
+  Notas:
+  - Se publica nueva orden de peajes
+  - Se actualiza el impuesto electrico
+  - Se sube el IVA al 21%
+  BOE:
+    cargos: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2022-23737
+    comercializacion: https://www.boe.es/buscar/doc.php?id=BOE-A-2016-12274
+    contador: https://www.boe.es/buscar/pdf/2013/BOE-A-2013-8561-consolidado.pdf
+    impuesto_electrico: https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685
+    iva_electrico: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-26452
+    peajes: https://www.boe.es/buscar/doc.php?id=BOE-A-2023-26251
+  contador: 0.81
+  energia:
+    cargos:
+      P1: 0.043893
+      P2: 0.008779
+      P3: 0.002195
+    peajes:
+      P1: 0.033081
+      P2: 0.019184
+      P3: 0.000557
+  impuesto_electrico: 2.5
+  iva: 21.0
+  margen_comercializacion: 3.113
+  potencia:
+    cargos:
+      P1: 2.989915
+      P2: 0.192288
+    peajes:
+      P1: 22.401746
+      P2: 0.776564        
 2024-04-01:
   Notas:
   - Se actualiza el impuesto eléctrico
@@ -130,7 +163,7 @@
       P2: 0.019184
       P3: 0.000557
   impuesto_electrico: 3.8
-  iva: 5.0
+  iva: 21.0
   margen_comercializacion: 3.113
   potencia:
     cargos:
