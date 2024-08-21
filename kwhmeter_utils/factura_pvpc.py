@@ -15,13 +15,13 @@ def LuT(LuTable,fecha,periodo=None):
 
 def calculos_pvpc(datos,consumos):
     consumos_con_precios=append_prices(consumos)
+    consumos_con_precios['EDCGASPCB']=consumos_con_precios['EDCGASPCB'].fillna(0)
     coeff=pd.DataFrame.from_dict(config_pvpc,orient='index')
     coeff_ene=coeff.energia.apply(pd.DataFrame.from_dict,orient='index').to_dict()
     precios=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_ene,row['fecha'],row['periodo']),axis=1)
     precios.index=consumos_con_precios.index
     consumos_con_precios['PEAJES_E_PRICE']=precios['peajes']    
-    consumos_con_precios['CARGOS_E_PRICE']=precios['cargos']  
-    consumos_con_precios.to_csv('kk.xlsx')      
+    consumos_con_precios['CARGOS_E_PRICE']=precios['cargos']    
     consumos_con_precios['PEAJES_E']=consumos_con_precios['PEAJES_E_PRICE']*consumos_con_precios['consumo']/1000
     consumos_con_precios['CARGOS_E']=consumos_con_precios['CARGOS_E_PRICE']*consumos_con_precios['consumo']/1000
     consumos_con_precios['PEAJES_Y_CARGOS_E']=consumos_con_precios['PEAJES_E']+consumos_con_precios['CARGOS_E']
