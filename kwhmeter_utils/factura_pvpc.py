@@ -20,6 +20,7 @@ def calculos_pvpc(datos,consumos):
     coeff_ene=coeff.energia.apply(pd.DataFrame.from_dict,orient='index').to_dict()
     precios=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_ene,row['fecha'],row['periodo']),axis=1)
     precios.index=consumos_con_precios.index
+    ultima_fecha=consumos_con_precios.reset_index()['fecha'].max()    
     consumos_con_precios['PEAJES_E_PRICE']=precios['peajes']    
     consumos_con_precios['CARGOS_E_PRICE']=precios['cargos']    
     consumos_con_precios['PEAJES_E']=consumos_con_precios['PEAJES_E_PRICE']*consumos_con_precios['consumo']/1000
@@ -48,7 +49,13 @@ def calculos_pvpc(datos,consumos):
     consumos_con_precios['TERMINO_VARIABLE']=consumos_con_precios['PEAJES_Y_CARGOS_E']+consumos_con_precios['ENERGIA_SIN_PEAJES_NI_CARGOS']
     consumos_con_precios['TOTAL_ELECTRICIDAD']=consumos_con_precios['TERMINO_VARIABLE']+consumos_con_precios['TERMINO_FIJO']
     coeff_impuesto_electrico=coeff.impuesto_electrico.to_dict()
-    precios_impuesto_electrico=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_impuesto_electrico,row['fecha']),axis=1)
+    #Impuesto electrico
+    if False:
+        #Impuesto prorateado
+        precios_impuesto_electrico=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_impuesto_electrico,row['fecha']),axis=1)
+    else:
+        #Impuesto al tipo vigente el ultimo dia de consumo
+        precios_impuesto_electrico=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_impuesto_electrico,ultima_fecha),axis=1)                
     precios_impuesto_electrico.index=consumos_con_precios.index
     consumos_con_precios['IMPUESTO_ELECTRICO']=consumos_con_precios['TOTAL_ELECTRICIDAD']*precios_impuesto_electrico/100
     coeff_contador=coeff.contador.to_dict()
@@ -57,7 +64,13 @@ def calculos_pvpc(datos,consumos):
     consumos_con_precios['ALQUILER_CONTADOR']=precios_contador*12/(365*24)
     consumos_con_precios['IMPORTE_TOTAL']=consumos_con_precios['TOTAL_ELECTRICIDAD']+consumos_con_precios['IMPUESTO_ELECTRICO']+consumos_con_precios['ALQUILER_CONTADOR']
     coeff_iva=coeff.iva.to_dict()
-    precios_iva=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_iva,row['fecha']),axis=1)
+    #Calculos IVA
+    if False:
+        #IVA prorateados
+        precios_iva=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_iva,row['fecha']),axis=1)
+    else:
+        #IVA al tipo vigente el ultimo dia de consumo
+        precios_iva=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_iva,ultima_fecha),axis=1)        
     precios_iva.index=consumos_con_precios.index
     consumos_con_precios['IVA']=consumos_con_precios['IMPORTE_TOTAL']*precios_iva/100
     consumos_con_precios['TOTAL_CON_IVA']=consumos_con_precios['IMPORTE_TOTAL']+consumos_con_precios['IVA']
@@ -70,6 +83,30 @@ def formater(datos,consumos,anonimo=True):
     potencias_contratadas=datos['potencias']
     kWP1=potencias_contratadas['P1']
     kWP2=potencias_contratadas['P2']
+    if consumos['EDCGASPCB'].sum()!=0:
+        Energia={
+                'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['ENERGIA_SIN_PEAJES_NI_CARGOS'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['ENERGIA_SIN_PEAJES_NI_CARGOS'].sum():.2f} €",
+                'Coste mercados':{
+                    'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
+                    'P1':f"{cc_por_periodo.loc['P1','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo.loc['P1','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
+                    'P2':f"{cc_por_periodo.loc['P2','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo.loc['P2','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P2','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
+                    'P3':f"{cc_por_periodo.loc['P3','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo.loc['P3','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P3','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
+                    },
+                'Compensación tope Gas': {
+                    'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['EDCGASPCB'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['EDCGASPCB'].sum():.2f} €",
+                    'P1':f"{cc_por_periodo.loc['P1','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','EDCGASPCB'].sum()*1000/cc_por_periodo.loc['P1','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P1','EDCGASPCB'].sum():.2f} €",
+                    'P2':f"{cc_por_periodo.loc['P2','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','EDCGASPCB'].sum()*1000/cc_por_periodo.loc['P2','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P2','EDCGASPCB'].sum():.2f} €",
+                    'P3':f"{cc_por_periodo.loc['P3','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','EDCGASPCB'].sum()*1000/cc_por_periodo.loc['P3','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P3','EDCGASPCB'].sum():.2f} €",
+                    }
+            }
+    else:
+        Energia={
+                    'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
+                    'P1':f"{cc_por_periodo.loc['P1','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo.loc['P1','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
+                    'P2':f"{cc_por_periodo.loc['P2','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo.loc['P2','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P2','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
+                    'P3':f"{cc_por_periodo.loc['P3','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo.loc['P3','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P3','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
+            }
+
     result={
     'Termino Fijos':{
         'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['TERMINO_FIJO'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['TERMINO_FIJO'].sum():.2f} €",        
@@ -97,21 +134,7 @@ def formater(datos,consumos,anonimo=True):
             'P2':f"{cc_por_periodo.loc['P2','consumo']/1000:.0f} kWh x {cc_por_periodo.loc['P2','CARGOS_E'].sum()*1000/cc_por_periodo.loc['P2','consumo'].sum():.6f} €/kWh = {cc_por_periodo.loc['P2','CARGOS_E']:.2f} €",
             'P3':f"{cc_por_periodo.loc['P3','consumo']/1000:.0f} kWh x {cc_por_periodo.loc['P3','CARGOS_E'].sum()*1000/cc_por_periodo.loc['P3','consumo'].sum():.6f} €/kWh = {cc_por_periodo.loc['P3','CARGOS_E']:.2f} €",
         },
-        'Energia': {
-            'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['ENERGIA_SIN_PEAJES_NI_CARGOS'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['ENERGIA_SIN_PEAJES_NI_CARGOS'].sum():.2f} €",
-            'Coste mercados':{
-                'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
-                'P1':f"{cc_por_periodo.loc['P1','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo.loc['P1','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
-                'P2':f"{cc_por_periodo.loc['P2','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo.loc['P2','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P2','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
-                'P3':f"{cc_por_periodo.loc['P3','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum()*1000/cc_por_periodo.loc['P3','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P3','ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS'].sum():.2f} €",
-                },
-            'Compensación tope Gas': {
-                'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['EDCGASPCB'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['EDCGASPCB'].sum():.2f} €",
-                'P1':f"{cc_por_periodo.loc['P1','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','EDCGASPCB'].sum()*1000/cc_por_periodo.loc['P1','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P1','EDCGASPCB'].sum():.2f} €",
-                'P2':f"{cc_por_periodo.loc['P2','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','EDCGASPCB'].sum()*1000/cc_por_periodo.loc['P2','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P2','EDCGASPCB'].sum():.2f} €",
-                'P3':f"{cc_por_periodo.loc['P3','consumo'].sum()/1000:.0f} kWh x {cc_por_periodo.loc['P1','EDCGASPCB'].sum()*1000/cc_por_periodo.loc['P3','consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo.loc['P3','EDCGASPCB'].sum():.2f} €",
-                }
-        }
+        'Energia': Energia
     },
     'Impuesto Electrico':f"{cc_por_periodo['IMPUESTO_ELECTRICO'].sum()*100/cc_por_periodo['TOTAL_ELECTRICIDAD'].sum():.2f}% x {cc_por_periodo['TOTAL_ELECTRICIDAD'].sum():.2f} € = {cc_por_periodo['IMPUESTO_ELECTRICO'].sum():.2f} €",
     'Otros':{

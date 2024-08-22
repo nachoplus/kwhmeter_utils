@@ -1,6 +1,6 @@
-tagname='0.1.3'
+tagname='0.1.4'
 git tag --delete ${tagname}
-git tag ${tagname}   -m "correccion del tipo de IVA  de las tablas de coeficientes"
+git tag ${tagname}   -m "impuestos al tipo vigente el ultimo dia de consumo (sin prorateo)"
 git push origin :refs/tags/${tagname}
 git push --tags origin main
 rm dist/*
