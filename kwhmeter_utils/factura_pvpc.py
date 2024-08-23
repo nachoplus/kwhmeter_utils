@@ -16,6 +16,7 @@ def LuT(LuTable,fecha,periodo=None):
 def calculos_pvpc(datos,consumos):
     consumos_con_precios=append_prices(consumos)
     consumos_con_precios['EDCGASPCB']=consumos_con_precios['EDCGASPCB'].fillna(0)
+    consumos_con_precios['days_in_year']=pd.Series(consumos_con_precios.index.year,index=consumos_con_precios.index).apply(lambda x: pd.Timestamp(x, 12, 31).dayofyear)
     coeff=pd.DataFrame.from_dict(config_pvpc,orient='index')
     coeff_ene=coeff.energia.apply(pd.DataFrame.from_dict,orient='index').to_dict()
     precios=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_ene,row['fecha'],row['periodo']),axis=1)
@@ -29,8 +30,10 @@ def calculos_pvpc(datos,consumos):
     consumos_con_precios['ENERGIA_SIN_PEAJES_NI_CARGOS']=consumos_con_precios['PCB']-consumos_con_precios['PEAJES_Y_CARGOS_E']
     consumos_con_precios['ENERGIA_SIN_PEAJES_NI_CARGOS_NI_GAS']=consumos_con_precios['ENERGIA_SIN_PEAJES_NI_CARGOS']-consumos_con_precios['EDCGASPCB']
     coeff_pot=coeff.potencia.apply(pd.DataFrame.from_dict,orient='index').to_dict()
-    precios_p1=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_pot,row['fecha'],'P1'),axis=1)/(365*24)
-    precios_p2=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_pot,row['fecha'],'P2'),axis=1)/(365*24)
+    print(consumos_con_precios.reset_index()['days_in_year']*24)   
+    print(consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_pot,row['fecha'],'P1'),axis=1))
+    precios_p1=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_pot,row['fecha'],'P1'),axis=1).div(consumos_con_precios.reset_index()['days_in_year']*24,axis=0)
+    precios_p2=consumos_con_precios.reset_index().apply(lambda row: LuT(coeff_pot,row['fecha'],'P2'),axis=1).div(consumos_con_precios.reset_index()['days_in_year']*24,axis=0)
     precios_p1.index=consumos_con_precios.index
     precios_p2.index=consumos_con_precios.index
     potencias_contratadas=datos['potencias']
@@ -121,7 +124,7 @@ def formater(datos,consumos,anonimo=True):
         f"Margen de comercialización {ndias} dias x {cc_por_periodo['COMERCIALIZADORA_P'].sum()/(ndias*kWP1):.6f} €/kW dia x {kWP1} kWP1":f"{cc_por_periodo['COMERCIALIZADORA_P'].sum():.2f} €"
     },
     'Termino Variables':{
-        'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.3f} kWh x {cc_por_periodo['TERMINO_VARIABLE'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['TERMINO_VARIABLE'].sum():.2f} €",    
+        'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['TERMINO_VARIABLE'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['TERMINO_VARIABLE'].sum():.2f} €",    
         'Peajes':{
             'Subtotal':f"{cc_por_periodo['consumo'].sum()/1000:.0f} kWh x {cc_por_periodo['PEAJES_E'].sum()*1000/cc_por_periodo['consumo'].sum():.5f} €/kWh (ponderado)= {cc_por_periodo['PEAJES_E'].sum():.2f} €",    
             'P1':f"{cc_por_periodo.loc['P1','consumo']/1000:.0f} kWh x {cc_por_periodo.loc['P1','PEAJES_E'].sum()*1000/cc_por_periodo.loc['P1','consumo'].sum():.6f} €/kWh = {cc_por_periodo.loc['P1','PEAJES_E']:.2f} €",

@@ -1,6 +1,6 @@
-tagname='0.1.4'
+tagname='0.1.5'
 git tag --delete ${tagname}
-git tag ${tagname}   -m "impuestos al tipo vigente el ultimo dia de consumo (sin prorateo)"
+git tag ${tagname}   -m "Ajuste precios unitarios peajes de potencia para años bisiestos"
 git push origin :refs/tags/${tagname}
 git push --tags origin main
 rm dist/*
